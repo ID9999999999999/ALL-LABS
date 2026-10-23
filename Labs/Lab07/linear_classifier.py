@@ -1,3 +1,4 @@
+
 """Linear-classifier functions for Lab 07: optimization algorithms."""
 
 from __future__ import annotations
@@ -68,8 +69,8 @@ def sgd_momentum_update(
     #                                                                           #
     # then use that velocity to update next_W.                                  #
     #############################################################################
-    # Replace "pass" statement with your code
-    pass
+    velocity = momentum * velocity - learning_rate * gradient
+    next_W = W + velocity
     #############################################################################
     #                             END OF YOUR CODE                              #
     #############################################################################
@@ -157,8 +158,15 @@ def adam_update(
     # 2. Correct both estimates for their initialization bias.                  #
     # 3. Update next_W using the corrected estimates and epsilon.               #
     #############################################################################
-    # Replace "pass" statement with your code
-    pass
+    first_moment = beta1 * first_moment + (1.0 - beta1) * gradient
+    second_moment = beta2 * second_moment + (1.0 - beta2) * gradient * gradient
+
+    first_moment_corrected = first_moment / (1.0 - beta1 ** timestep)
+    second_moment_corrected = second_moment / (1.0 - beta2 ** timestep)
+
+    next_W = W - learning_rate * first_moment_corrected / (
+        torch.sqrt(second_moment_corrected) + epsilon
+    )
     #############################################################################
     #                             END OF YOUR CODE                              #
     #############################################################################
