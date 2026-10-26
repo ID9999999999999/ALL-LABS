@@ -83,8 +83,8 @@ def two_layer_forward(
     ############################################################################
     # Replace "pass" statement with your code
     hidden_linear = X @ W1 + b1
-hidden = relu(hidden_linear)
-scores = hidden @ W2 + b2
+    hidden = relu(hidden_linear)
+    scores = hidden @ W2 + b2
     ############################################################################
     #                             END OF YOUR CODE                            #
     ############################################################################
