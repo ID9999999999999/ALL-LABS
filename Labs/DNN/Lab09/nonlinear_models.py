@@ -1,3 +1,4 @@
+
 """Small PyTorch models for Lab 09.
 
 The lab uses a two-dimensional XOR-style dataset so that model capacity and
@@ -55,7 +56,11 @@ def make_two_layer_model(hidden_width: int) -> nn.Sequential:
     # Use nn.Sequential so that calling model(X) returns class scores.        #
     ############################################################################
     # Replace "pass" statement with your code
-    pass
+    model = nn.Sequential(
+        nn.Linear(2, hidden_width),
+        nn.ReLU(),
+        nn.Linear(hidden_width, 2),
+    )
     ############################################################################
     #                             END OF YOUR CODE                            #
     ############################################################################
@@ -84,7 +89,11 @@ def train_step(
     # Return loss.item() as a Python float. Do not derive gradients manually. #
     ############################################################################
     # Replace "pass" statement with your code
-    pass
+    scores = model(X)
+    loss = F.cross_entropy(scores, y)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
     ############################################################################
     #                             END OF YOUR CODE                            #
     ############################################################################
