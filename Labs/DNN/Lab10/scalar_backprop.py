@@ -1,3 +1,4 @@
+
 """Scalar computational graph and manual backpropagation for Lab 10.
 
 The graph is
@@ -62,7 +63,7 @@ def sigmoid(value: torch.Tensor) -> torch.Tensor:
     # TODO: Implement sigmoid(value) = 1 / (1 + exp(-value)).                 #
     ############################################################################
     # Replace "pass" statement with your code
-    pass
+    output = 1 / (1 + torch.exp(-value))
     ############################################################################
     #                             END OF YOUR CODE                            #
     ############################################################################
@@ -89,7 +90,11 @@ def scalar_forward(values: ScalarMap) -> Tuple[torch.Tensor, Cache]:
     #   loss = sigmoid(s3)                                                    #
     ############################################################################
     # Replace "pass" statement with your code
-    pass
+    s0 = w0 * x0
+    s1 = w1 * x1
+    s2 = s0 + s1
+    s3 = s2 + w2
+    loss = sigmoid(s3)
     ############################################################################
     #                             END OF YOUR CODE                            #
     ############################################################################
@@ -130,7 +135,21 @@ def scalar_backward(cache: Cache) -> GradientMap:
     # gradients in grads using the input names shown above.                    #
     ############################################################################
     # Replace "pass" statement with your code
-    pass
+    grad_loss = torch.ones_like(cache["loss"])
+
+    grad_s3 = grad_loss * cache["loss"] * (1 - cache["loss"])
+
+    grad_s2 = grad_s3
+    grads["w2"] = grad_s3
+
+    grad_s0 = grad_s2
+    grad_s1 = grad_s2
+
+    grads["w0"] = grad_s0 * cache["x0"]
+    grads["x0"] = grad_s0 * cache["w0"]
+
+    grads["w1"] = grad_s1 * cache["x1"]
+    grads["x1"] = grad_s1 * cache["w1"]
     ############################################################################
     #                             END OF YOUR CODE                            #
     ############################################################################
